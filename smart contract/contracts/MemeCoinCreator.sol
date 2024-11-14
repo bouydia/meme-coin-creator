@@ -87,7 +87,7 @@ contract MemeToken is ERC20, ERC20Burnable, Ownable, ReentrancyGuard {
         emit TokensMinted(msg.sender, amount);
     }
     
-    function burn(uint256 amount) public override payable nonReentrant {
+    /* function burn(uint256 amount) public override payable nonReentrant {
         require(_burnEnabled, "Token burning is not enabled");
         require(msg.value >= BURN_FEE, "Insufficient burn fee");
         
@@ -98,7 +98,7 @@ contract MemeToken is ERC20, ERC20Burnable, Ownable, ReentrancyGuard {
         
         super.burn(amount);
         emit TokensBurned(msg.sender, amount);
-    }
+    } */
     
     function createLiquidityPool(uint256 tokenAmount) external payable nonReentrant onlyOwner {
         require(!liquidityPoolCreated, "Liquidity pool already created");
