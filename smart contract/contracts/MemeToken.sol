@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 interface IUniswapV2Factory {
@@ -56,7 +56,7 @@ contract MemeToken is ERC20, ERC20Burnable, Ownable, ReentrancyGuard {
         address owner,
         address _feeCollector,
         address _routerAddress
-    ) ERC20(name, symbol) onlyOwner() {
+    ) ERC20(name, symbol) Ownable(owner) {
         require(maxSupply >= initialSupply, "Max supply must be >= initial supply");
         _logoUrl = logoUrl;
         _maxSupply = maxSupply;
@@ -87,7 +87,7 @@ contract MemeToken is ERC20, ERC20Burnable, Ownable, ReentrancyGuard {
         emit TokensMinted(msg.sender, amount);
     }
     
-    /* function burn(uint256 amount) public override payable nonReentrant {
+    function burn(uint256 amount) public override payable nonReentrant {
         require(_burnEnabled, "Token burning is not enabled");
         require(msg.value >= BURN_FEE, "Insufficient burn fee");
         
@@ -98,7 +98,7 @@ contract MemeToken is ERC20, ERC20Burnable, Ownable, ReentrancyGuard {
         
         super.burn(amount);
         emit TokensBurned(msg.sender, amount);
-    } */
+    }
     
     function createLiquidityPool(uint256 tokenAmount) external payable nonReentrant onlyOwner {
         require(!liquidityPoolCreated, "Liquidity pool already created");
